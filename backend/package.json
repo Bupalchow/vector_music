@@ -12,6 +12,8 @@
   "type": "module",
   "description": "",
   "dependencies": {
+    "audio-decode": "^2.2.3",
+    "meyda": "^5.6.3",
     "@pinecone-database/pinecone": "^7.2.0"
   }
 }
