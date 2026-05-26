@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import decodeAudio from 'audio-decode';
 import Meyda from 'meyda';
+import { upsertProcessedAudioEmbedding } from '../config/db.js';
 
 export async function audioFileToTuneText(audioFilePath) {
 	const fileBuffer = await readFile(audioFilePath);
@@ -166,4 +167,16 @@ export async function audioFileToTuneText(audioFilePath) {
 	].join('\n');
 
 	return tuneText;
+}
+
+export async function audioFileToPineconeEmbedding(audioFilePath, metadata = {}) {
+	const tuneText = await audioFileToTuneText(audioFilePath);
+
+	return upsertProcessedAudioEmbedding({
+		processedAudioText: tuneText,
+		metadata: {
+			audioFilePath,
+			...metadata,
+		},
+	});
 }
